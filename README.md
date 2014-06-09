@@ -6,6 +6,8 @@ CSE 210 Spring14 Project
 * Bottle
 * Jinja2
 * MongoDB
+* PyMongo
+* EnergyPlus
 
 # How to Run
 1. python server.py

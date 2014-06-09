@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<script src="/js/jquery-1.11.1.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/highcharts.js"></script>
+	<script src="/js/util.js"></script>
+	<link rel="stylesheet" href="/css/bootstrap_alt.min.css"/>
+	<link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+
+<!-- navbar -->
+<nav class="navbar navbar-default">
+	<div class="container-fluid">
+		<a  href="/building" class="navbar-brand">SynergyPlus</a>
+		<ul class="nav navbar-nav">
+			<li>
+				<a href="/building">Building</a>
+			</li>
+			<li>
+				<a href="/calendar">Calendar</a>
+			</li>
+		</ul>
+	</div>
+</nav>
+
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-2 sidebar">
+			<ul class="nav nav-sidebar">
+				<li>
+					<a href="/building/foo_building/overview">Overview</a>
+				</li>
+				<li>
+					<a href="/building/foo_building/history">History</a>
+				</li>
+				<li>
+					<a href="/building/foo_building/schedule">Schedule</a>
+				</li>
+				<li>
+					<a href="/building/foo_building/predict">Predict</a>
+				</li>
+			</ul>
+		</div>
+		<div class="col-md-10">
+			{% block main %}
+			{% endblock %}
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

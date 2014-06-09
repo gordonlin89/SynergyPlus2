@@ -1,0 +1,113 @@
+{% extends "building_base.html" %}
+
+{% block main %}
+<script>
+	$(function() {
+		$('#predict_button').click(function() {
+			$('#predict_config').submit()
+		});
+		$('#predict_config').submit(function(event) {
+			event.preventDefault();
+			
+			//Show loading on previous chart.
+			try {
+				$('#power_chart').highcharts().showLoading();
+			} catch(e) {}
+			
+			//Send Ajax
+			var formData = new FormData(this);
+			$.ajax({
+				url: "http://localhost:8080/data",
+				data: formData,
+				processData: false,
+				contentType: false,
+				method: "POST",
+				success: function(data) {
+					//Destory previous chart and remake new chart.
+					try {
+						$('#power_chart').highcharts().destroy();
+					} catch (e) {}
+					$('#power_chart').highcharts(createChartJson(data['time'], data['series']));
+					
+					//Update CSV
+					var oldTable = document.getElementById('power_table');
+					var newTable = createTable(data['time'], data['series']);
+					newTable.setAttribute('id', 'power_table');
+					newTable.setAttribute('class', 'table table-bordered');
+					document.getElementById('div_power_table').replaceChild(newTable, oldTable);
+				}
+			});
+		});
+	});
+</script>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			<a data-toggle="collapse" href="#collapse_config">Config</a>
+			<button id="predict_button" type="submit" class="btn btn-primary btn-xs pull-right">Predict</button>
+		</h3>
+	</div>
+	<div id="collapse_config" class="panel-collapse collapse in">
+		<div class="panel-body">
+			<form id="predict_config" action="/building/foo_building/predict" method="GET">
+				<div class="form-group">
+					<label>Calendar</label>
+					<select class="form-control" name="calendar">
+						{% for calendar in calendars %}
+						<option value="{{ calendar['name'] }}">{{ calendar['name'] }}</option>
+						{% endfor %}
+					</select>
+				</div>
+				<div class="form-group">
+					<label>Schedules</label>
+					<select class="form-control" multiple name="schedule">
+						{% for schedule in schedules %}
+						<option value="{{ schedule['name'] }}">{{ schedule['name'] }}</option>
+						{% endfor %}
+					</select>
+				</div>
+				<div class="form-group">
+					<label>Historical Data (Year)</label>
+					<select class="form-control" multiple name="history">
+						{% for year in years %}
+						<option value="{{ year }}">{{ year }}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			<a data-toggle="collapse" href="#collapse_graphs">Graph</a>
+		</h3>
+	</div>
+	<div id="collapse_graphs" class="panel-collapse collapse in">
+		<div class="panel-body">
+			<div id="power_chart">
+				<p>No prediction executed.</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			<a data-toggle="collapse" href="#collapse_data">Data</a>
+		</h3>
+	</div>
+	<div id="collapse_data" class="panel-collapse collapse in">
+		<div class="panel-body">
+			
+		</div>
+		<div id="div_power_table">
+			<table id="power_table"></table>
+		</div>
+	</div>
+</div>
+{% endblock %}

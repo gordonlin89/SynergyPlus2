@@ -1,0 +1,41 @@
+{% extends "building_base.html" %}
+
+{% block main %}
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">Power Consumption</h3>
+	</div>
+	<div class="panel-body">
+		<form class="form-inline" action="/building/foo_building/history" method="GET">
+			<label>Year:</lable>
+			<select class="form-control" name="year">
+				{% for year in years %}
+				<option value="{{ year }}">{{ year }}</option>
+				{% endfor %}
+			</select>
+			<input type="submit" class="form-control">
+		</form>
+	</div>
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th>Time</th>
+				<!--
+				<th>Cooling Power (kW)</th>
+				<th>Heating Power (kW)</th>
+				<th>Electrical Power (kW)</th>
+				-->
+				<th>Total Power (kW)</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for time, total in data %}
+			<tr>
+				<td>{{ time }}</td>
+				<td>{{ total }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endblock %}

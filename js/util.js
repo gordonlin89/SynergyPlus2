@@ -17,14 +17,14 @@ function createChartJson(time, series) {
 			"type":"line",
 		},
 		"title": {
-			"text": 'Power Consumption'
+			"text": 'Energy Consumption'
 		},
 		"xAxis": {
 			"categories": time,
 			"title": {"text":"Time"}
 		},
 		"yAxis": {
-			"title": {"text":"Power (kW)"}
+			"title": {"text":"Energy (J)"}
 		},
 		"series": chartSeries,
 		"credits": {"enabled": false}

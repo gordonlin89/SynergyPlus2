@@ -14,13 +14,13 @@ If data not given, assume default value'''
     else:
         den=list_of_den[2]
     
-    idf=open("energyplus/formatted.idf",'w')
-    shutil.copy2('energyplus/format.idf','energyplus/formatted.idf')
-    linestring = open('energyplus/formatted.idf').read()
+    #idf=open("energyplus/test/formatted.idf",'w')
+    #shutil.copy2('energyplus/test/format.idf','energyplus/test/formatted.idf')
+    with open('energyplus/test/format.idf') as f:
+        linestring = f.read()
     a=linestring.format(start_month,start_date,end_month,end_date,temp,temp,temp,temp,temp,temp,temp,temp,temp,temp,temp,temp,den,den,den,den,den,den,den,den,den,den,den,den,den,den,den,den,den,den,den,den,den)
-    idf.write(a)
-    idf.close()
-    
+    with open("energyplus/test/formatted.idf", "w") as f:
+        f.write(a)
 
 def output(denomination='D'):
     '''Generates 4 arrays of strigns in the following order: Date/Time, Cooling Energy, Heating Energy, Electrical Energy.
